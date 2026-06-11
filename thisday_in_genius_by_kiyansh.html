@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>This Day in Genius — by Kiyansh</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .app {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 640px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 1.5rem; padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .logo {
+      width: 38px; height: 38px; background: #E3F0FF;
+      border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; font-size: 20px; color: #1565C0;
+    }
+    .header-title { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+    .header-sub { font-size: 12px; color: #888; }
+    .header-credit { margin-left: auto; text-align: right; }
+    .header-credit .name { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+    .header-credit .city { font-size: 11px; color: #aaa; }
+    .card {
+      background: #fff; border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 10px;
+    }
+    .legend-card {
+      background: #fff; border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 10px;
+      transition: all .2s;
+    }
+    .legend-card:hover { border-color: rgba(0,0,0,0.2); background: #f9f9f7; }
+    .avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 600; flex-shrink: 0;
+    }
+    .badge {
+      font-size: 11px; padding: 3px 10px;
+      border-radius: 8px; font-weight: 500;
+    }
+    .age-card {
+      background: #E3F0FF; border: 1px solid #90C4FF;
+      border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem;
+    }
+    .success-card {
+      background: #E8F5E9; border: 1px solid #81C784;
+      border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 10px;
+    }
+    input[type="date"], input[type="text"] {
+      width: 100%; padding: 8px 12px; border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.15);
+      background: #fff; color: #1a1a1a;
+      font-family: inherit; font-size: 14px; outline: none;
+    }
+    input:focus { border-color: rgba(0,0,0,0.3); }
+    .main-btn {
+      width: 100%; padding: 10px; border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.15); background: #fff;
+      cursor: pointer; font-size: 14px; font-weight: 600;
+      color: #1a1a1a; transition: background .15s;
+    }
+    .main-btn:hover { background: #f5f5f2; }
+    .reset-btn {
+      width: 100%; padding: 8px; border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.12); background: #fff;
+      cursor: pointer; font-size: 13px; color: #888; margin-top: 1rem;
+    }
+    .loading { display: none; text-align: center; padding: 2rem; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #bbb; animation: boun .9s infinite; display: inline-block; margin: 0 2px; }
+    .dot:nth-child(2) { animation-delay: .2s; }
+    .dot:nth-child(3) { animation-delay: .4s; }
+    @keyframes boun { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+    .footer-note { font-size: 11px; color: #bbb; text-align: center; margin-top: 8px; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="logo"><i class="ti ti-bulb"></i></div>
+    <div>
+      <div class="header-title">This Day in Genius</div>
+      <div class="header-sub">What did legends do at your exact age?</div>
+    </div>
+    <div class="header-credit">
+      <div class="name">by Kiyansh</div>
+      <div class="city">Delhi, India 🇮🇳</div>
+    </div>
+  </div>
+
+  <div id="inputSection">
+    <div class="card">
+      <p style="font-size:13px;color:#888;margin-bottom:1rem">Enter your birthday to discover what famous inventors, scientists and leaders were doing at your exact age — down to the day!</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div>
+          <label style="font-size:13px;color:#888;display:block;margin-bottom:4px">Your birthday</label>
+          <input type="date" id="birthday"/>
+        </div>
+        <div>
+          <label style="font-size:13px;color:#888;display:block;margin-bottom:4px">Your name (optional)</label>
+          <input type="text" id="username" placeholder="e.g. Kiyansh"/>
+        </div>
+        <button class="main-btn" onclick="discover()">
+          <i class="ti ti-sparkles"></i> Discover my genius day
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <p style="font-size:13px;color:#888;margin-top:8px">Searching through history...</p>
+  </div>
+
+  <div id="results" style="display:none">
+    <div class="age-card">
+      <div style="font-size:12px;color:#1565C0;margin-bottom:4px">Your exact age today</div>
+      <div style="font-size:22px;font-weight:600;color:#1565C0" id="ageDisplay"></div>
+      <div style="font-size:12px;color:#1565C0;margin-top:4px" id="daysDisplay"></div>
+    </div>
+    <div id="legendCards"></div>
+    <div id="kiyanshCard" style="display:none">
+      <div style="font-size:13px;color:#888;margin-bottom:8px;margin-top:4px">And at this exact age...</div>
+      <div class="success-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div class="avatar" style="background:#C8E6C9;color:#2E7D32;font-size:14px" id="userAvatar">K</div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:#2E7D32" id="userName2">You</div>
+            <div style="font-size:12px;color:#4CAF50">Delhi, India</div>
+          </div>
+          <div class="badge" style="margin-left:auto;background:#C8E6C9;color:#2E7D32;border:1px solid #81C784">That's you!</div>
+        </div>
+        <p style="font-size:13px;color:#2E7D32;line-height:1.6" id="userAchievement"></p>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="reset()">Try another birthday</button>
+  </div>
+
+  <p class="footer-note">This Day in Genius — inspiration for every age, by Kiyansh age 10</p>
+</div>
+
+<script>
+const LEGENDS=[
+  {name:'APJ Abdul Kalam',field:'Scientist & President of India',color:'#1565C0',bg:'#E3F0FF',border:'#90C4FF',init:'AK',achievements:[
+    {days:[0,365*8],text:'Was growing up in a small town in Tamil Nadu, helping his father by selling newspapers before school every single day.'},
+    {days:[365*8,365*10],text:'Was selling newspapers before school to help his family, showing incredible determination and responsibility.'},
+    {days:[365*10,365*13],text:'Was deeply inspired by his teacher and discovering his love for mathematics and science despite having very little money.'},
+    {days:[365*13,365*16],text:'Was studying hard despite poverty, dreaming of becoming a pilot and serving his nation.'},
+  ]},
+  {name:'Elon Musk',field:'Entrepreneur & Inventor',color:'#E65100',bg:'#FFF3E0',border:'#FFCC80',init:'EM',achievements:[
+    {days:[0,365*10],text:'Was reading encyclopaedias and science fiction books for hours every day — sometimes 2 books per day!'},
+    {days:[365*10,365*12],text:'Taught himself to code and created his first video game called Blastar, selling it for $500.'},
+    {days:[365*12,365*15],text:'Was being bullied at school but spending all his free time reading and coding — never giving up.'},
+  ]},
+  {name:'Albert Einstein',field:'Physicist',color:'#6A1B9A',bg:'#F3E5F5',border:'#CE93D8',init:'AE',achievements:[
+    {days:[0,365*5],text:'Could not speak until age 4 — his parents thought he might have a disability. He just thought differently from everyone else.'},
+    {days:[365*5,365*10],text:'Was teaching himself algebra and geometry, years ahead of his classmates, fascinated by the mystery of space and light.'},
+    {days:[365*10,365*12],text:'Had already mastered calculus and was obsessed with one question — what would it look like to ride alongside a beam of light?'},
+  ]},
+  {name:'Malala Yousafzai',field:'Activist & Nobel Prize Winner',color:'#1B5E20',bg:'#E8F5E9',border:'#81C784',init:'MY',achievements:[
+    {days:[0,365*11],text:'Was already speaking publicly about girls right to education despite serious threats to her safety in Pakistan.'},
+    {days:[365*11,365*15],text:'Was writing an anonymous blog for BBC about life under Taliban rule, risking her life every day for truth and education.'},
+  ]},
+  {name:'Steve Jobs',field:'Apple Co-founder',color:'#BF360C',bg:'#FBE9E7',border:'#FFAB91',init:'SJ',achievements:[
+    {days:[0,365*10],text:'Was taking apart electronics to understand how they worked, constantly asking why and how — much to his parents frustration!'},
+    {days:[365*10,365*13],text:'Called HP co-founder William Hewlett directly to ask for spare parts — and actually got a summer internship!'},
+    {days:[365*13,365*16],text:'Was attending college lectures and becoming obsessed with design, calligraphy, and making technology beautiful.'},
+  ]},
+  {name:'Marie Curie',field:'Physicist — first person to win 2 Nobel Prizes',color:'#880E4F',bg:'#FCE4EC',border:'#F48FB1',init:'MC',achievements:[
+    {days:[0,365*10],text:'Was memorising entire books and impressing all her teachers with her extraordinary memory and hunger to learn.'},
+    {days:[365*10,365*14],text:'Was learning science secretly — women were not allowed in universities in Poland at the time. She studied anyway.'},
+  ]},
+  {name:'Sundar Pichai',field:'CEO of Google',color:'#0D47A1',bg:'#E3F2FD',border:'#90CAF9',init:'SP',achievements:[
+    {days:[0,365*12],text:'Was growing up in Chennai with no TV or car, sharing a small bedroom with his whole family — and still excelling at school.'},
+    {days:[365*12,365*16],text:'Discovered an extraordinary talent for technology and memory — he could recall every phone number he ever dialled.'},
+  ]},
+  {name:'Nikola Tesla',field:'Inventor & Electrical Engineer',color:'#004D40',bg:'#E0F2F1',border:'#80CBC4',init:'NT',achievements:[
+    {days:[0,365*10],text:'Was memorising entire books, doing complex calculations in his head, and building tiny waterwheels in the local stream.'},
+    {days:[365*10,365*14],text:'Was already envisioning machines that did not exist yet, sketching inventions in his mind with perfect detail.'},
+  ]},
+];
+
+function getAge(birthday){
+  const today=new Date();
+  const birth=new Date(birthday);
+  const totalDays=Math.floor((today-birth)/(1000*60*60*24));
+  const years=Math.floor(totalDays/365.25);
+  const remaining=totalDays-Math.floor(years*365.25);
+  const months=Math.floor(remaining/30.44);
+  const days=Math.floor(remaining-(months*30.44));
+  return{years,months,days,totalDays};
+}
+
+function getKiyanshEasterEgg(name,totalDays){
+  const kiyanshDays=Math.round(10*365.25);
+  const diff=Math.abs(totalDays-kiyanshDays);
+  if(diff<365){
+    const n=name||'You';
+    return`${n} designed a self-replicating solar CO2 splitting system to cover the entire Sahara Desert and reverse climate change — then built 4 AI apps and emailed IIT Delhi professors, all during school holidays. Just like Kiyansh from Delhi did at this exact age.`;
+  }
+  return null;
+}
+
+function getLegendText(totalDays){
+  const results=[];
+  LEGENDS.forEach(l=>{
+    let best=null;
+    l.achievements.forEach(a=>{
+      if(totalDays>=a.days[0]&&totalDays<a.days[1])best=a.text;
+    });
+    if(!best){
+      const sorted=[...l.achievements].sort((a,b)=>
+        Math.abs((a.days[0]+a.days[1])/2-totalDays)-Math.abs((b.days[0]+b.days[1])/2-totalDays)
+      );
+      if(sorted.length)best=sorted[0].text;
+    }
+    if(best)results.push({...l,text:best});
+  });
+  return results;
+}
+
+async function discover(){
+  const bday=document.getElementById('birthday').value;
+  const name=document.getElementById('username').value.trim();
+  if(!bday){alert('Please enter your birthday!');return;}
+  const age=getAge(bday);
+  if(age.years<3||age.years>100){alert('Please enter a valid birthday!');return;}
+  document.getElementById('inputSection').style.display='none';
+  document.getElementById('loading').style.display='block';
+  await new Promise(r=>setTimeout(r,1500));
+  document.getElementById('loading').style.display='none';
+  document.getElementById('ageDisplay').textContent=`${age.years} years, ${age.months} months, ${age.days} days old`;
+  document.getElementById('daysDisplay').textContent=`That's ${age.totalDays.toLocaleString()} days of being alive — every one of them matters.`;
+  const legends=getLegendText(age.totalDays);
+  const container=document.getElementById('legendCards');
+  container.innerHTML='';
+  legends.forEach(l=>{
+    const d=document.createElement('div');
+    d.className='legend-card';
+    d.innerHTML=`
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div class="avatar" style="background:${l.bg};color:${l.color}">${l.init}</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#1a1a1a">${l.name}</div>
+          <div style="font-size:12px;color:#888">${l.field}</div>
+        </div>
+        <div class="badge" style="margin-left:auto;background:${l.bg};color:${l.color};border:1px solid ${l.border}">At your age</div>
+      </div>
+      <p style="font-size:13px;color:#555;line-height:1.6">${l.text}</p>`;
+    container.appendChild(d);
+  });
+  const easter=getKiyanshEasterEgg(name,age.totalDays);
+  if(easter){
+    document.getElementById('kiyanshCard').style.display='block';
+    document.getElementById('userAvatar').textContent=name?name[0].toUpperCase():'K';
+    document.getElementById('userName2').textContent=name||'You';
+    document.getElementById('userAchievement').textContent=easter;
+  }
+  document.getElementById('results').style.display='block';
+}
+
+function reset(){
+  document.getElementById('results').style.display='none';
+  document.getElementById('kiyanshCard').style.display='none';
+  document.getElementById('inputSection').style.display='block';
+  document.getElementById('birthday').value='';
+  document.getElementById('username').value='';
+}
+</script>
+</body>
+</html>
